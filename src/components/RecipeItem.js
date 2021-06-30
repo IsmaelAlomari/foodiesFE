@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import IngredientItem from './IngredientItem';
 const RecipeItem = (props) => {
   let ing = props.recipe.ingredients;
+
+  ing = ing.map((ing) => ing.id);
   const ingData = useSelector((state) => state.ingredients.ingredients);
   ing = ing.map((i) => ingData.find((r) => i === r.id));
   ing = ing.map((i) => <IngredientItem ing={i} />);
-
   return (
     <Col className="container-fluid mt-4">
       <Card style={{ width: '20rem' }}>

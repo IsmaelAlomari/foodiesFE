@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { Badge, Card, CardDeck, Button, Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import RecipeItem from './RecipeItem';
-import Checkbox from 'react-custom-checkbox';
 const RecipesList = (props) => {
-  let recipes = useSelector((state) => state.recipes.recipes).map((r) => r.id);
+  let recipes = useSelector((state) => state.recipes.recipes);
   let feData = false;
   const [cus, setCus] = useState([]);
+  const [query, setQuery] = useState('');
 
   let cuisines = useSelector((state) => state.cuisines.cuisines);
   let searchC = cuisines.find((r) => cus === r.name);
   if (searchC) {
     searchC = searchC.id;
   }
+  const ingData = useSelector((state) => state.ingredients.ingredients);
 
   let showC = cuisines.map((c) => (
     <>
@@ -38,17 +39,12 @@ const RecipesList = (props) => {
     recipes = props.recipes;
     feData = true;
   }
-  const recipesData = useSelector((state) => state.recipes.recipes);
-  recipes = recipes.map((recipe) => recipesData.find((r) => recipe === r.id));
-  const [query, setQuery] = useState('');
-  const ingData = useSelector((state) => state.ingredients.ingredients);
-  let search = ingData.find((r) => query === r.name);
-  if (search) {
-    search = search.id;
-  }
+  const search = ingData.find((r) => query === r.name)?.id;
+
   recipes = recipes.filter(
     (recipe) =>
-      recipe.name.includes(query) || recipe.ingredients.includes(search)
+      recipe.name.includes(query) ||
+      recipe.ingredients.map((i) => i.id).includes(search)
   );
   recipes = recipes.map((recipe) => <RecipeItem recipe={recipe} />);
 

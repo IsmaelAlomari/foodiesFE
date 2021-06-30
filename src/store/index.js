@@ -7,7 +7,10 @@ import ingredientsReducer from './reducers/ingredientsReducer';
 import ingCatReducer from './reducers/ingCatReducer';
 
 // import { fetchProducts } from './actions/productsActions';
-// import { fetchShops } from './actions/shopsActions';
+import { fetchCuisines } from './actions/cuisineActions';
+import { fetchRecipes } from './actions/recipeActions';
+import { fetchIngredients } from './actions/ingredientActions';
+import { fetchIngCats } from './actions/ingCatActions';
 
 const rootReducer = combineReducers({
   cuisines: cuisineReducer,
@@ -18,7 +21,9 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
-// store.dispatch(fetchProducts());
-// store.dispatch(fetchShops());
+store.dispatch(fetchRecipes());
+store.dispatch(fetchCuisines());
+store.dispatch(fetchIngredients());
+store.dispatch(fetchIngCats());
 
 export default store;
