@@ -1,43 +1,43 @@
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import 'react-pro-sidebar/dist/css/styles.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { Button, Modal, Form } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { addCuisine } from '../store/actions/cuisineActions';
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import "react-pro-sidebar/dist/css/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { Button, Modal, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
+import { addCuisine } from "../store/actions/cuisineActions";
 
 const SideBar = () => {
   const history = useHistory();
   const thumbsContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: 16,
   };
 
   const thumb = {
-    display: 'inline-flex',
+    display: "inline-flex",
     borderRadius: 2,
-    border: '1px solid #eaeaea',
+    border: "1px solid #eaeaea",
     marginBottom: 8,
     marginRight: 8,
     width: 100,
     height: 100,
     padding: 4,
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
   };
 
   const thumbInner = {
-    display: 'flex',
+    display: "flex",
     minWidth: 0,
-    overflow: 'hidden',
+    overflow: "hidden",
   };
 
   const img = {
-    display: 'block',
-    width: 'auto',
-    height: '100%',
+    display: "block",
+    width: "auto",
+    height: "100%",
   };
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ const SideBar = () => {
   const [show, setShow] = useState(false);
   const [cuisine, setCuisine] = useState({});
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: "image/*",
     onDrop: (acceptedFiles) => {
       setCuisine({ ...cuisine, img: acceptedFiles[0] });
 
@@ -98,7 +98,9 @@ const SideBar = () => {
       <ProSidebar rtl={true}>
         <Menu iconShape="square">
           <MenuItem>
-            <Button onClick={handleShow}>إضافة قسم</Button>
+            <Button className="btn btn-info" onClick={handleShow}>
+              إضافة قسم
+            </Button>
           </MenuItem>
 
           {cuisines}
@@ -107,13 +109,18 @@ const SideBar = () => {
 
       <Modal tabindex="-1" centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>إضافة قسم</Modal.Title>
+          <Modal.Title style={{ float: "center", fontFamily: "fantasy" }}>
+            إضافة قسم
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>اسم القسم</Form.Label>
+              <Form.Label style={{ float: "right", fontFamily: "fantasy" }}>
+                اسم القسم
+              </Form.Label>
               <Form.Control
+                style={{ fontFamily: "fantasy" }}
                 name="name"
                 onChange={(event) => handleChange(event)}
                 type="text"
@@ -122,19 +129,25 @@ const SideBar = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>الصورة</Form.Label>
+              <Form.Label style={{ float: "right", fontFamily: "fantasy" }}>
+                الصورة
+              </Form.Label>
               {/* <Form.Control type="file" placeholder="ارفع الصورة" /> */}
               <section
                 className="container"
                 style={{
-                  width: '300px',
-                  backgroundColor: 'lightgrey',
-                  marginTop: '10px',
+                  width: "50%",
+                  backgroundColor: "lightgrey",
+                  marginTop: "10px",
+                  textAlign: "center",
+                  fontFamily: "fantasy",
                 }}
               >
-                <div {...getRootProps({ className: 'dropzone' })}>
+                <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p>اسحب وضع الصورة هنا أو اضغط لاختيار صورة</p>
+                  <p style={{ fontFamily: "fantasy" }}>
+                    اسحب وضع الصورة هنا أو اضغط لاختيار صورة
+                  </p>
                 </div>
                 <aside style={thumbsContainer}>{thumbs}</aside>
               </section>
@@ -142,10 +155,18 @@ const SideBar = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            style={{ fontFamily: "fantasy" }}
+            variant="secondary"
+            onClick={handleClose}
+          >
             إغلاق
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button
+            style={{ fontFamily: "fantasy" }}
+            variant="primary"
+            onClick={handleSubmit}
+          >
             حفظ القسم
           </Button>
         </Modal.Footer>

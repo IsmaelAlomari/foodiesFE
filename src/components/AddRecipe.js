@@ -1,48 +1,48 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Form } from 'react-bootstrap';
-import { Button, Modal } from 'react-bootstrap';
-import { addIngCat } from '../store/actions/ingCatActions';
-import { addIngredient } from '../store/actions/ingredientActions';
-import { useState, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { addRecipe } from '../store/actions/recipeActions';
-import { useHistory } from 'react-router-dom';
-import IngredientItem from './IngredientItem';
+import { useDispatch, useSelector } from "react-redux";
+import { Form } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import { addIngCat } from "../store/actions/ingCatActions";
+import { addIngredient } from "../store/actions/ingredientActions";
+import { useState, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
+import { addRecipe } from "../store/actions/recipeActions";
+import { useHistory } from "react-router-dom";
+import IngredientItem from "./IngredientItem";
 
-import CategoryCard from './CategoryCard';
-import { Accordion, Card } from 'react-bootstrap';
+import CategoryCard from "./CategoryCard";
+import { Accordion, Card } from "react-bootstrap";
 
 const AddRecipe = () => {
   const history = useHistory();
   const thumbsContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: 16,
   };
 
   const thumb = {
-    display: 'inline-flex',
+    display: "inline-flex",
     borderRadius: 2,
-    border: '1px solid #eaeaea',
+    border: "1px solid #eaeaea",
     marginBottom: 8,
     marginRight: 8,
     width: 100,
     height: 100,
     padding: 4,
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
   };
 
   const thumbInner = {
-    display: 'flex',
+    display: "flex",
     minWidth: 0,
-    overflow: 'hidden',
+    overflow: "hidden",
   };
 
   const img = {
-    display: 'block',
-    width: 'auto',
-    height: '100%',
+    display: "block",
+    width: "auto",
+    height: "100%",
   };
   const [files, setFiles] = useState([]);
   const thumbs = files.map((file) => (
@@ -53,7 +53,7 @@ const AddRecipe = () => {
     </div>
   ));
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: "image/*",
     onDrop: (acceptedFiles) => {
       setRecipe({ ...recipe, img: acceptedFiles[0] });
 
@@ -160,10 +160,10 @@ const AddRecipe = () => {
   ));
   return (
     <>
-      <Button style={{ float: 'right' }} onClick={() => setShow(true)}>
+      <Button style={{ float: "right" }} onClick={() => setShow(true)}>
         إضافة تصنيف
       </Button>
-      <Button style={{ float: 'right' }} onClick={() => setShow2(true)}>
+      <Button style={{ float: "right" }} onClick={() => setShow2(true)}>
         إضافة مكون
       </Button>
 
@@ -173,9 +173,17 @@ const AddRecipe = () => {
       <center>
         <br /> <br />
         <br />
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: "18rem" }}>
           <Card.Body>
-            <Card.Title>المكونات</Card.Title>
+            <Card.Title
+              style={{
+                fontFamily: "fantasy",
+                fontWeight: "bold",
+                fontSize: "30px",
+              }}
+            >
+              المكونات
+            </Card.Title>
             <Card.Text>
               {recipe.ingredients.map((ingredient) => (
                 <button
@@ -192,8 +200,17 @@ const AddRecipe = () => {
             </Card.Text>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>اسم الطبق</Form.Label>
+                <Form.Label
+                  style={{
+                    fontFamily: "fantasy",
+                    float: "right",
+                    fontSize: "25px",
+                  }}
+                >
+                  اسم الطبق
+                </Form.Label>
                 <Form.Control
+                  style={{ fontFamily: "serif" }}
                   name="name"
                   onChange={handleChange}
                   type="text"
@@ -201,27 +218,48 @@ const AddRecipe = () => {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>الصورة</Form.Label>
+                <Form.Label
+                  style={{
+                    fontFamily: "fantasy",
+                    float: "right",
+                    fontSize: "20px",
+                  }}
+                >
+                  الصورة
+                </Form.Label>
                 {/* <Form.Control type="file" placeholder="ارفع الصورة" /> */}
                 <section
                   className="container"
                   style={{
-                    width: '300px',
-                    backgroundColor: 'lightgrey',
-                    marginTop: '10px',
+                    textAlign: "center",
+                    width: "50%",
+                    backgroundColor: "lightgrey",
+                    marginTop: "10px",
                   }}
                 >
-                  <div {...getRootProps({ className: 'dropzone' })}>
+                  <div {...getRootProps({ className: "dropzone" })}>
                     <input {...getInputProps()} />
-                    <p>اسحب وضع الصورة هنا أو اضغط لاختيار صورة</p>
+                    <p style={{ fontFamily: "serif" }}>
+                      اسحب وضع الصورة هنا أو اضغط لاختيار صورة
+                    </p>
                   </div>
                   <aside style={thumbsContainer}>{thumbs}</aside>
                 </section>
               </Form.Group>
               <Form.Group>
-                <label for="cars">التصنيف:</label>
+                <label
+                  style={{ fontFamily: "serif", float: "right" }}
+                  for="cars"
+                >
+                  التصنيف
+                </label>
 
-                <select name="cuisine" id="cuisine" onChange={handleChange}>
+                <select
+                  style={{ width: "50px", fontFamily: "serif" }}
+                  name="cuisine"
+                  id="cuisine"
+                  onChange={handleChange}
+                >
                   <option value="default">اختر</option>
 
                   {cuisines.map((cuisine) => (
@@ -231,7 +269,11 @@ const AddRecipe = () => {
                   ))}
                 </select>
               </Form.Group>
-              <Button variant="primary" onClick={handleAddRecipe}>
+              <Button
+                style={{ fontFamily: "serif" }}
+                variant="success"
+                onClick={handleAddRecipe}
+              >
                 إضافة الطبق
               </Button>
             </Form>
@@ -247,8 +289,11 @@ const AddRecipe = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>اسم التصنيف</Form.Label>
+              <Form.Label style={{ float: "right", fontFamily: "serif" }}>
+                اسم التصنيف
+              </Form.Label>
               <Form.Control
+                style={{ fontFamily: "serif" }}
                 name="name"
                 onChange={(event) => handleChangeAddCatIng(event)}
                 type="text"
@@ -258,10 +303,18 @@ const AddRecipe = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            style={{ fontFamily: "serif" }}
+            variant="secondary"
+            onClick={handleClose}
+          >
             إغلاق
           </Button>
-          <Button variant="primary" onClick={handleAddCatIng}>
+          <Button
+            style={{ fontFamily: "serif" }}
+            variant="success"
+            onClick={handleAddCatIng}
+          >
             إضافة التصنيف
           </Button>
         </Modal.Footer>
@@ -274,8 +327,11 @@ const AddRecipe = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>اسم المكون</Form.Label>
+              <Form.Label style={{ float: "right", fontFamily: "serif" }}>
+                اسم المكون
+              </Form.Label>
               <Form.Control
+                style={{ fontFamily: "serif" }}
                 name="name"
                 onChange={(event) => handleChangeAddIng(event)}
                 type="text"
@@ -283,14 +339,19 @@ const AddRecipe = () => {
               />
             </Form.Group>
             <Form.Group>
-              <label for="cars">التصنيف:</label>
+              <label for="cars" style={{ float: "right", fontFamily: "serif" }}>
+                التصنيف
+              </label>
 
               <select
+                style={{ float: "right", fontFamily: "serif" }}
                 name="ingCat"
                 id="ingCat"
                 onChange={(event) => handleChangeAddIng(event)}
               >
-                <option value="default">اختر</option>
+                <option style={{ fontFamily: "serif" }} value="default">
+                  اختر
+                </option>
 
                 {categories.map((ic) => (
                   <option value={ic.id}>{ic.name}</option>
@@ -298,14 +359,18 @@ const AddRecipe = () => {
               </select>
             </Form.Group>
             <Form.Group>
-              <label for="cars">السعرات:</label>
+              <label style={{ fontFamily: "serif" }} for="cars">
+                السعرات
+              </label>
 
               <select
                 name="calories"
                 id="calories"
                 onChange={(event) => handleChangeAddIng(event)}
               >
-                <option value="default">اختر</option>
+                <option style={{ fontFamily: "serif" }} value="default">
+                  اختر
+                </option>
 
                 <option value="success">قليل السعرات</option>
                 <option value="warning">متوسط السعرات</option>
@@ -318,7 +383,7 @@ const AddRecipe = () => {
           <Button variant="secondary" onClick={handleClose2}>
             إغلاق
           </Button>
-          <Button variant="primary" onClick={() => handleAddIng()}>
+          <Button variant="success" onClick={() => handleAddIng()}>
             إضافة المكون
           </Button>
         </Modal.Footer>

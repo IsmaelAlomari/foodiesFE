@@ -1,6 +1,12 @@
 .App {
   text-align: center;
+  background-color: linear-gradient(#f8ede3, #bdd2b6, #a2b29f, #798777);
 }
+body {
+  background: linear-gradient(180deg, #e3d9ca, #95a792, #596c68, #403f48);
+  height: 100vh;
+}
+
 .check-list li {
   float: left;
   align-items: center;
@@ -33,6 +39,7 @@ button {
 .side-menu {
   position: absolute;
   right: 0px;
+  color: black;
 }
 .accordion {
   position: absolute;
@@ -79,10 +86,10 @@ button {
     transform: rotate(360deg);
   }
 }
-input[type='text'] {
+input[type="text"] {
   direction: rtl;
 }
-input[type='search'] {
+input[type="search"] {
   direction: rtl;
   margin-top: 10px;
   background: #ededed
@@ -100,7 +107,7 @@ input[type='search'] {
   -moz-transition: all 0.5s;
   transition: all 0.5s;
 }
-input[type='search']:focus {
+input[type="search"]:focus {
   width: 50%;
   background-color: #fff;
   border-color: #66cc75;
