@@ -1,52 +1,55 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Form } from "react-bootstrap";
-import { Button, Modal } from "react-bootstrap";
-import { addIngCat } from "../store/actions/ingCatActions";
-import { addIngredient } from "../store/actions/ingredientActions";
-import { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import { addRecipe } from "../store/actions/recipeActions";
-import { useHistory } from "react-router-dom";
-import IngredientItem from "./IngredientItem";
-import useSound from "use-sound";
-import mansaf from "../mansaf.mp3";
-import Fuse from "fuse.js";
+import { useDispatch, useSelector } from 'react-redux';
+import { Form } from 'react-bootstrap';
+import Badge from 'react-bootstrap/Badge';
 
-import CategoryCard from "./CategoryCard";
-import { Accordion, Card } from "react-bootstrap";
+import { Button, Modal } from 'react-bootstrap';
+import { addIngCat } from '../store/actions/ingCatActions';
+import { addIngredient } from '../store/actions/ingredientActions';
+import { useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { addRecipe } from '../store/actions/recipeActions';
+import { useHistory } from 'react-router-dom';
+import IngredientItem from './IngredientItem';
+import useSound from 'use-sound';
+import mansaf from '../mansaf.mp3';
+import Fuse from 'fuse.js';
+import { Helmet } from 'react-helmet';
+
+import CategoryCard from './CategoryCard';
+import { Accordion, Card } from 'react-bootstrap';
 
 const AddRecipe = () => {
   const [play] = useSound(mansaf);
   const history = useHistory();
   const thumbsContainer = {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginTop: 16,
   };
 
   const thumb = {
-    display: "inline-flex",
+    display: 'inline-flex',
     borderRadius: 2,
-    border: "1px solid #eaeaea",
+    border: '1px solid #eaeaea',
     marginBottom: 8,
     marginRight: 8,
     width: 100,
     height: 100,
     padding: 4,
-    boxSizing: "border-box",
+    boxSizing: 'border-box',
   };
 
   const thumbInner = {
-    display: "flex",
+    display: 'flex',
     minWidth: 0,
-    overflow: "hidden",
+    overflow: 'hidden',
   };
 
   const img = {
-    display: "block",
-    width: "auto",
-    height: "100%",
+    display: 'block',
+    width: 'auto',
+    height: '100%',
   };
   const [files, setFiles] = useState([]);
   const thumbs = files.map((file) => (
@@ -57,7 +60,7 @@ const AddRecipe = () => {
     </div>
   ));
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: 'image/*',
     onDrop: (acceptedFiles) => {
       setRecipe({ ...recipe, img: acceptedFiles[0] });
 
@@ -87,11 +90,11 @@ const AddRecipe = () => {
 
   const handleClick = (id) => {
     if (
-      ingredients.find((ing) => ing.id === id.id)?.name === "دجاج" &&
-      recipe.name === "منسف"
+      ingredients.find((ing) => ing.id === id.id)?.name === 'دجاج' &&
+      recipe.name === 'منسف'
     ) {
       play();
-      console.log("منسف عجاج ما ينفع اردنية");
+      console.log('منسف عجاج ما ينفع اردنية');
     } else {
       let newIng = [...recipe.ingredients, id];
       setRecipe({ ...recipe, ingredients: newIng });
@@ -110,7 +113,7 @@ const AddRecipe = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
 
   const handleClose = () => {
     setShow(false);
@@ -163,7 +166,7 @@ const AddRecipe = () => {
   let cuisines = useSelector((state) => state.cuisines.cuisines);
 
   const fuse = new Fuse(ingredients, {
-    keys: ["name"],
+    keys: ['name'],
     minMatchCharLength: 4,
   });
   const results = fuse.search(query);
@@ -178,14 +181,18 @@ const AddRecipe = () => {
   ));
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>إضافة وصفة</title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
+
       <Button
         className="btn btn-secondary"
         style={{
-          float: "right",
-          marginRight: "30px",
-          gap: "50px",
-          marginTop: "3px",
-          paddingLeft: "20px",
+          float: 'right',
+          marginTop: '5px',
+          marginRight: '15px',
         }}
         onClick={() => setShow(true)}
       >
@@ -195,10 +202,9 @@ const AddRecipe = () => {
       <Button
         className="btn btn-secondary "
         style={{
-          float: "right",
-          gap: "50px",
-          marginTop: "3px",
-          paddingRight: "20px",
+          float: 'right',
+          marginRight: '10px',
+          marginTop: '5px',
         }}
         onClick={() => setShow2(true)}
       >
@@ -211,12 +217,12 @@ const AddRecipe = () => {
       <center>
         <br /> <br />
         <br />
-        <Card className="yameen" style={{ width: "22rem" }}>
+        <Card className="yameen" style={{ width: '22rem' }}>
           <Card.Body>
             <Card.Title
               style={{
-                fontWeight: "bold",
-                fontSize: "30px",
+                fontWeight: 'bold',
+                fontSize: '30px',
               }}
             >
               المكونات
@@ -239,8 +245,8 @@ const AddRecipe = () => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label
                   style={{
-                    float: "right",
-                    fontSize: "25px",
+                    float: 'right',
+                    fontSize: '25px',
                   }}
                 >
                   اسم الطبق
@@ -255,8 +261,8 @@ const AddRecipe = () => {
               <Form.Group className="mb-3">
                 <Form.Label
                   style={{
-                    float: "right",
-                    fontSize: "20px",
+                    float: 'right',
+                    fontSize: '20px',
                   }}
                 >
                   الصورة
@@ -265,13 +271,13 @@ const AddRecipe = () => {
                 <section
                   className="container"
                   style={{
-                    textAlign: "center",
-                    width: "50%",
-                    backgroundColor: "lightgrey",
-                    marginTop: "10px",
+                    textAlign: 'center',
+                    width: '50%',
+                    backgroundColor: 'lightgrey',
+                    marginTop: '10px',
                   }}
                 >
-                  <div {...getRootProps({ className: "dropzone" })}>
+                  <div {...getRootProps({ className: 'dropzone' })}>
                     <input {...getInputProps()} />
                     <p>اسحب وضع الصورة هنا أو اضغط لاختيار صورة</p>
                   </div>
@@ -279,12 +285,11 @@ const AddRecipe = () => {
                 </section>
               </Form.Group>
               <Form.Group>
-                <label style={{ float: "right" }} for="cars">
-                  التصنيف
+                <label style={{ float: 'right' }} for="cars">
+                  &nbsp;التصنيف&nbsp;&nbsp;
                 </label>
-
                 <select
-                  style={{ width: "50px" }}
+                  style={{ width: '50px' }}
                   name="cuisine"
                   id="cuisine"
                   onChange={handleChange}
@@ -298,9 +303,12 @@ const AddRecipe = () => {
                   ))}
                 </select>
               </Form.Group>
-              <Button variant="success" onClick={handleAddRecipe}>
-                إضافة الطبق
-              </Button>
+              <center>
+                {' '}
+                <Button variant="success" onClick={handleAddRecipe}>
+                  إضافة الطبق
+                </Button>
+              </center>
             </Form>
           </Card.Body>
         </Card>
@@ -315,7 +323,7 @@ const AddRecipe = () => {
         onHide={handleClose}
       >
         <Modal.Header
-          style={{ flexDirection: "row", direction: "ltr" }}
+          style={{ flexDirection: 'row', direction: 'ltr' }}
           closeButton
         >
           <Modal.Title>إضافة تصنيف</Modal.Title>
@@ -323,7 +331,7 @@ const AddRecipe = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label style={{ float: "right" }}>اسم التصنيف</Form.Label>
+              <Form.Label style={{ float: 'right' }}>اسم التصنيف</Form.Label>
               <Form.Control
                 name="name"
                 onChange={(event) => handleChangeAddCatIng(event)}
@@ -351,22 +359,22 @@ const AddRecipe = () => {
         onHide={handleClose2}
       >
         <Modal.Header
-          style={{ flexDirection: "row", direction: "ltr" }}
+          style={{ flexDirection: 'row', direction: 'ltr' }}
           closeButton
         >
           <Modal.Title
             style={{
-              flexDirection: "row",
-              direction: "rtl",
+              flexDirection: 'row',
+              direction: 'rtl',
             }}
           >
             إضافة مكون
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ float: "left" }}>
+        <Modal.Body style={{ float: 'left' }}>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label style={{ float: "right" }}>اسم المكون</Form.Label>
+              <Form.Label style={{ float: 'right' }}>اسم المكون</Form.Label>
               <Form.Control
                 name="name"
                 onChange={(event) => {
@@ -380,25 +388,35 @@ const AddRecipe = () => {
                 <>
                   {results.map((r) => (
                     <>
-                      <p>المكون {r.item.name}</p>
                       <p>
-                        موجود في تصنيف{" "}
-                        {categories.find((i) => i.id === r.item.ingCatId)?.name}
+                        المكون <IngredientItem ing={r.item} />
+                      </p>
+                      <p>
+                        موجود في تصنيف{' '}
+                        <Badge style={{ margin: '5px' }} pill variant="success">
+                          <div className="fonttt">
+                            {' '}
+                            {
+                              categories.find((i) => i.id === r.item.ingCatId)
+                                ?.name
+                            }{' '}
+                          </div>
+                        </Badge>{' '}
                       </p>
                     </>
                   ))}
                 </>
               ) : (
-                ""
+                ''
               )}
             </Form.Group>
             <Form.Group>
-              <label for="cars" style={{ float: "right" }}>
-                التصنيف
+              <label for="cars" style={{ float: 'right' }}>
+                &nbsp;&nbsp;التصنيف&nbsp;&nbsp;
               </label>
 
               <select
-                style={{ float: "right" }}
+                style={{ float: 'right' }}
                 name="ingCat"
                 id="ingCat"
                 onChange={(event) => handleChangeAddIng(event)}
@@ -411,7 +429,7 @@ const AddRecipe = () => {
               </select>
             </Form.Group>
             <Form.Group>
-              <label for="cars">السعرات</label>
+              <label for="cars">&nbsp;&nbsp;السعرات&nbsp;&nbsp;</label>
 
               <select
                 name="calories"

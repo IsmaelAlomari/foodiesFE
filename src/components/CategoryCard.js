@@ -6,7 +6,7 @@ const CategoryCard = ({ category, idx, ingredients, handleClick }) => {
     <Card>
       <Card.Header>
         <Accordion.Toggle as={Button} variant="link" eventKey={idx}>
-          {category.name}
+          <div className="fonttt">{category.name}</div>
         </Accordion.Toggle>
       </Card.Header>
       <Accordion.Collapse eventKey={idx}>

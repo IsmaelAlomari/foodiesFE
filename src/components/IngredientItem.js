@@ -4,7 +4,7 @@ const IngredientItem = (props) => {
   return (
     <>
       <Badge style={{ margin: '5px' }} pill variant={props.ing.calories}>
-        {props.ing.name}{' '}
+        <div className="fonttt"> {props.ing.name} </div>
       </Badge>{' '}
     </>
   );

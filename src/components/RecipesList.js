@@ -1,15 +1,19 @@
-import { useState } from "react";
-import { Badge, Card, CardDeck, Button, Container } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import "@pathofdev/react-tag-input/build/index.css";
-import ReactTagInput from "@pathofdev/react-tag-input";
-import RecipeItem from "./RecipeItem";
+import { useState } from 'react';
+import { Badge, Card, CardDeck, Button, Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import '@pathofdev/react-tag-input/build/index.css';
+import ReactTagInput from '@pathofdev/react-tag-input';
+import RecipeItem from './RecipeItem';
+import { Helmet } from 'react-helmet';
+
 const RecipesList = (props) => {
   let recipes = useSelector((state) => state.recipes.recipes);
   let feData = false;
   const [cus, setCus] = useState([]);
-  const [query, setQuery] = useState("");
-  const [tags, setTags] = useState(["example tag"]);
+  const [query, setQuery] = useState('');
+  const [tags, setTags] = useState([]);
+  const [allergy, setAllergy] = useState([]);
+
   let cuisines = useSelector((state) => state.cuisines.cuisines);
   let searchC = cuisines.find((r) => cus === r.name);
   if (searchC) {
@@ -42,16 +46,32 @@ const RecipesList = (props) => {
     feData = true;
   }
   const search = tags.map((i) => ingData.find((r) => i === r.name)?.id);
+  const search2 = allergy.map((i) => ingData.find((r) => i === r.name)?.id);
+
   console.log(search);
-  recipes = recipes.filter(
-    (recipe) =>
-      recipe.name.includes(query) &&
-      search.every((r) => recipe.ingredients.map((i) => i.id).includes(r))
-  );
+  recipes = recipes
+    .filter(
+      (recipe) =>
+        recipe.name.includes(query) &&
+        search.every((r) => recipe.ingredients.map((i) => i.id).includes(r))
+    )
+    .filter((recipe) =>
+      search2.every(
+        (r) => recipe.ingredients.map((i) => i.id).includes(r) === false
+      )
+    );
   recipes = recipes.map((recipe) => <RecipeItem recipe={recipe} />);
 
   return (
     <>
+      {feData ? (
+        ''
+      ) : (
+        <Helmet>
+          <title>الوصفات</title>
+        </Helmet>
+      )}
+
       <center>
         <input
           class="form-control mr-sm-2"
@@ -68,9 +88,16 @@ const RecipesList = (props) => {
         <ReactTagInput
           placeholder="اكتب المكونات واضغط Enter"
           className="form-control mr-sm-2"
-          style={{ directions: "rtl" }}
+          style={{ directions: 'rtl' }}
           tags={tags}
           onChange={(newTags) => setTags(newTags)}
+        />
+        <ReactTagInput
+          placeholder=" عندك حساسية؟ اكتب المكونات واضغط enter"
+          className="form-control mr-sm-2"
+          style={{ directions: 'rtl' }}
+          tags={allergy}
+          onChange={(newTags) => setAllergy(newTags)}
         />
 
         <CardDeck>{recipes}</CardDeck>

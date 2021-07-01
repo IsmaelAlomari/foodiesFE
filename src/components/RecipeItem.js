@@ -10,7 +10,7 @@ const RecipeItem = (props) => {
   ing = ing.map((i) => <IngredientItem ing={i} />);
   return (
     <Col className="container-fluid mt-4">
-      <Card style={{ width: '20rem' }}>
+      <Card style={{ width: '18.9rem' }}>
         <Card.Img
           variant="top"
           className="cuisine-img"

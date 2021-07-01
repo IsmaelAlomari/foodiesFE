@@ -1,17 +1,19 @@
-import logo from "./logo.svg";
+import logo from './logo.svg';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import React, { useEffect, useState } from "react";
-import CuisineDetails from "./components/CuisineDetails";
-import { Route, Switch, Link, NavLink } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-pro-sidebar/dist/css/styles.css';
 
-import Home from "./components/Home";
-import NavBar from "./components/NavBar";
-import RecipesList from "./components/RecipesList";
-import AddRecipe from "./components/AddRecipe";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import './App.css';
+import React, { useEffect, useState } from 'react';
+import CuisineDetails from './components/CuisineDetails';
+import { Route, Switch, Link, NavLink } from 'react-router-dom';
+
+import Home from './components/Home';
+import NavBar from './components/NavBar';
+import RecipesList from './components/RecipesList';
+import AddRecipe from './components/AddRecipe';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 function App() {
   let recipesData = useSelector((state) => state.recipes.recipes);
   let loading = useSelector((state) => state.recipes.loading);
