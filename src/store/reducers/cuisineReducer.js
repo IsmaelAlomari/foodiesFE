@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/types';
 
 const initialState = {
   cuisines: [],
+  loading: true,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -10,6 +11,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         cuisines: action.payload,
+        loading: false,
       };
     }
     case actionTypes.ADD_CUISINE: {

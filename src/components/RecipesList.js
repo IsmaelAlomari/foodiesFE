@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { Badge, Card, CardDeck, Button, Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import RecipeItem from './RecipeItem';
+import { useState } from "react";
+import { Badge, Card, CardDeck, Button, Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import "@pathofdev/react-tag-input/build/index.css";
+import ReactTagInput from "@pathofdev/react-tag-input";
+import RecipeItem from "./RecipeItem";
 const RecipesList = (props) => {
   let recipes = useSelector((state) => state.recipes.recipes);
   let feData = false;
   const [cus, setCus] = useState([]);
-  const [query, setQuery] = useState('');
-
+  const [query, setQuery] = useState("");
+  const [tags, setTags] = useState(["example tag"]);
   let cuisines = useSelector((state) => state.cuisines.cuisines);
   let searchC = cuisines.find((r) => cus === r.name);
   if (searchC) {
@@ -39,12 +41,12 @@ const RecipesList = (props) => {
     recipes = props.recipes;
     feData = true;
   }
-  const search = ingData.find((r) => query === r.name)?.id;
-
+  const search = tags.map((i) => ingData.find((r) => i === r.name)?.id);
+  console.log(search);
   recipes = recipes.filter(
     (recipe) =>
-      recipe.name.includes(query) ||
-      recipe.ingredients.map((i) => i.id).includes(search)
+      recipe.name.includes(query) &&
+      search.every((r) => recipe.ingredients.map((i) => i.id).includes(r))
   );
   recipes = recipes.map((recipe) => <RecipeItem recipe={recipe} />);
 
@@ -62,9 +64,15 @@ const RecipesList = (props) => {
       </center>
 
       <br />
-      {feData ? '' : <>{showC}</>}
-
       <Container>
+        <ReactTagInput
+          placeholder="اكتب المكونات واضغط Enter"
+          className="form-control mr-sm-2"
+          style={{ directions: "rtl" }}
+          tags={tags}
+          onChange={(newTags) => setTags(newTags)}
+        />
+
         <CardDeck>{recipes}</CardDeck>
       </Container>
     </>

@@ -107,20 +107,21 @@ const SideBar = () => {
         </Menu>
       </ProSidebar>
 
-      <Modal tabindex="-1" centered show={show} onHide={handleClose}>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
-          <Modal.Title style={{ float: "center", fontFamily: "fantasy" }}>
-            إضافة قسم
-          </Modal.Title>
+          <Modal.Title style={{ float: "center" }}>إضافة قسم</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label style={{ float: "right", fontFamily: "fantasy" }}>
-                اسم القسم
-              </Form.Label>
+              <Form.Label style={{ float: "right" }}>اسم القسم</Form.Label>
               <Form.Control
-                style={{ fontFamily: "fantasy" }}
                 name="name"
                 onChange={(event) => handleChange(event)}
                 type="text"
@@ -129,9 +130,7 @@ const SideBar = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label style={{ float: "right", fontFamily: "fantasy" }}>
-                الصورة
-              </Form.Label>
+              <Form.Label style={{ float: "right" }}>الصورة</Form.Label>
               {/* <Form.Control type="file" placeholder="ارفع الصورة" /> */}
               <section
                 className="container"
@@ -140,14 +139,11 @@ const SideBar = () => {
                   backgroundColor: "lightgrey",
                   marginTop: "10px",
                   textAlign: "center",
-                  fontFamily: "fantasy",
                 }}
               >
                 <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p style={{ fontFamily: "fantasy" }}>
-                    اسحب وضع الصورة هنا أو اضغط لاختيار صورة
-                  </p>
+                  <p>اسحب وضع الصورة هنا أو اضغط لاختيار صورة</p>
                 </div>
                 <aside style={thumbsContainer}>{thumbs}</aside>
               </section>
@@ -155,18 +151,10 @@ const SideBar = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            style={{ fontFamily: "fantasy" }}
-            variant="secondary"
-            onClick={handleClose}
-          >
+          <Button variant="secondary" onClick={handleClose}>
             إغلاق
           </Button>
-          <Button
-            style={{ fontFamily: "fantasy" }}
-            variant="primary"
-            onClick={handleSubmit}
-          >
+          <Button variant="primary" onClick={handleSubmit}>
             حفظ القسم
           </Button>
         </Modal.Footer>

@@ -21,9 +21,11 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
-store.dispatch(fetchRecipes());
-store.dispatch(fetchCuisines());
-store.dispatch(fetchIngredients());
-store.dispatch(fetchIngCats());
-
+const fetch = async () => {
+  await store.dispatch(fetchRecipes());
+  await store.dispatch(fetchCuisines());
+  await store.dispatch(fetchIngredients());
+  await store.dispatch(fetchIngCats());
+};
+fetch();
 export default store;

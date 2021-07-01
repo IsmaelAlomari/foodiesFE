@@ -8,11 +8,15 @@ import { useDropzone } from "react-dropzone";
 import { addRecipe } from "../store/actions/recipeActions";
 import { useHistory } from "react-router-dom";
 import IngredientItem from "./IngredientItem";
+import useSound from "use-sound";
+import mansaf from "../mansaf.mp3";
+import Fuse from "fuse.js";
 
 import CategoryCard from "./CategoryCard";
 import { Accordion, Card } from "react-bootstrap";
 
 const AddRecipe = () => {
+  const [play] = useSound(mansaf);
   const history = useHistory();
   const thumbsContainer = {
     display: "flex",
@@ -79,10 +83,19 @@ const AddRecipe = () => {
   });
   const [catIng, setCatIng] = useState({});
   const [ing, setIng] = useState({});
+  let ingredients = useSelector((state) => state.ingredients.ingredients);
 
   const handleClick = (id) => {
-    let newIng = [...recipe.ingredients, id];
-    setRecipe({ ...recipe, ingredients: newIng });
+    if (
+      ingredients.find((ing) => ing.id === id.id)?.name === "دجاج" &&
+      recipe.name === "منسف"
+    ) {
+      play();
+      console.log("منسف عجاج ما ينفع اردنية");
+    } else {
+      let newIng = [...recipe.ingredients, id];
+      setRecipe({ ...recipe, ingredients: newIng });
+    }
   };
   const handleChange = (event) => {
     setRecipe({ ...recipe, [event.target.name]: event.target.value });
@@ -97,6 +110,7 @@ const AddRecipe = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [query, setQuery] = useState("");
 
   const handleClose = () => {
     setShow(false);
@@ -148,7 +162,11 @@ const AddRecipe = () => {
   let categories = useSelector((state) => state.ingCat.ingCat);
   let cuisines = useSelector((state) => state.cuisines.cuisines);
 
-  let ingredients = useSelector((state) => state.ingredients.ingredients);
+  const fuse = new Fuse(ingredients, {
+    keys: ["name"],
+    minMatchCharLength: 4,
+  });
+  const results = fuse.search(query);
   const ingCatList = categories.map((category, idx) => (
     <CategoryCard
       category={category}
@@ -160,10 +178,30 @@ const AddRecipe = () => {
   ));
   return (
     <>
-      <Button style={{ float: "right" }} onClick={() => setShow(true)}>
+      <Button
+        className="btn btn-secondary"
+        style={{
+          float: "right",
+          marginRight: "30px",
+          gap: "50px",
+          marginTop: "3px",
+          paddingLeft: "20px",
+        }}
+        onClick={() => setShow(true)}
+      >
         إضافة تصنيف
       </Button>
-      <Button style={{ float: "right" }} onClick={() => setShow2(true)}>
+
+      <Button
+        className="btn btn-secondary "
+        style={{
+          float: "right",
+          gap: "50px",
+          marginTop: "3px",
+          paddingRight: "20px",
+        }}
+        onClick={() => setShow2(true)}
+      >
         إضافة مكون
       </Button>
 
@@ -173,11 +211,10 @@ const AddRecipe = () => {
       <center>
         <br /> <br />
         <br />
-        <Card style={{ width: "18rem" }}>
+        <Card className="yameen" style={{ width: "22rem" }}>
           <Card.Body>
             <Card.Title
               style={{
-                fontFamily: "fantasy",
                 fontWeight: "bold",
                 fontSize: "30px",
               }}
@@ -202,7 +239,6 @@ const AddRecipe = () => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label
                   style={{
-                    fontFamily: "fantasy",
                     float: "right",
                     fontSize: "25px",
                   }}
@@ -210,7 +246,6 @@ const AddRecipe = () => {
                   اسم الطبق
                 </Form.Label>
                 <Form.Control
-                  style={{ fontFamily: "serif" }}
                   name="name"
                   onChange={handleChange}
                   type="text"
@@ -220,7 +255,6 @@ const AddRecipe = () => {
               <Form.Group className="mb-3">
                 <Form.Label
                   style={{
-                    fontFamily: "fantasy",
                     float: "right",
                     fontSize: "20px",
                   }}
@@ -239,23 +273,18 @@ const AddRecipe = () => {
                 >
                   <div {...getRootProps({ className: "dropzone" })}>
                     <input {...getInputProps()} />
-                    <p style={{ fontFamily: "serif" }}>
-                      اسحب وضع الصورة هنا أو اضغط لاختيار صورة
-                    </p>
+                    <p>اسحب وضع الصورة هنا أو اضغط لاختيار صورة</p>
                   </div>
                   <aside style={thumbsContainer}>{thumbs}</aside>
                 </section>
               </Form.Group>
               <Form.Group>
-                <label
-                  style={{ fontFamily: "serif", float: "right" }}
-                  for="cars"
-                >
+                <label style={{ float: "right" }} for="cars">
                   التصنيف
                 </label>
 
                 <select
-                  style={{ width: "50px", fontFamily: "serif" }}
+                  style={{ width: "50px" }}
                   name="cuisine"
                   id="cuisine"
                   onChange={handleChange}
@@ -269,11 +298,7 @@ const AddRecipe = () => {
                   ))}
                 </select>
               </Form.Group>
-              <Button
-                style={{ fontFamily: "serif" }}
-                variant="success"
-                onClick={handleAddRecipe}
-              >
+              <Button variant="success" onClick={handleAddRecipe}>
                 إضافة الطبق
               </Button>
             </Form>
@@ -282,18 +307,24 @@ const AddRecipe = () => {
       </center>
 
       {/* Add ingCat modal */}
-      <Modal tabindex="-1" centered show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
+        <Modal.Header
+          style={{ flexDirection: "row", direction: "ltr" }}
+          closeButton
+        >
           <Modal.Title>إضافة تصنيف</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label style={{ float: "right", fontFamily: "serif" }}>
-                اسم التصنيف
-              </Form.Label>
+              <Form.Label style={{ float: "right" }}>اسم التصنيف</Form.Label>
               <Form.Control
-                style={{ fontFamily: "serif" }}
                 name="name"
                 onChange={(event) => handleChangeAddCatIng(event)}
                 type="text"
@@ -303,55 +334,76 @@ const AddRecipe = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            style={{ fontFamily: "serif" }}
-            variant="secondary"
-            onClick={handleClose}
-          >
+          <Button variant="secondary" onClick={handleClose}>
             إغلاق
           </Button>
-          <Button
-            style={{ fontFamily: "serif" }}
-            variant="success"
-            onClick={handleAddCatIng}
-          >
+          <Button variant="success" onClick={handleAddCatIng}>
             إضافة التصنيف
           </Button>
         </Modal.Footer>
       </Modal>
       {/* Add ing modal */}
-      <Modal tabindex="-1" centered show={show2} onHide={handleClose2}>
-        <Modal.Header closeButton>
-          <Modal.Title>إضافة مكون</Modal.Title>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show2}
+        onHide={handleClose2}
+      >
+        <Modal.Header
+          style={{ flexDirection: "row", direction: "ltr" }}
+          closeButton
+        >
+          <Modal.Title
+            style={{
+              flexDirection: "row",
+              direction: "rtl",
+            }}
+          >
+            إضافة مكون
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ float: "left" }}>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label style={{ float: "right", fontFamily: "serif" }}>
-                اسم المكون
-              </Form.Label>
+              <Form.Label style={{ float: "right" }}>اسم المكون</Form.Label>
               <Form.Control
-                style={{ fontFamily: "serif" }}
                 name="name"
-                onChange={(event) => handleChangeAddIng(event)}
+                onChange={(event) => {
+                  handleChangeAddIng(event);
+                  setQuery(event.target.value);
+                }}
                 type="text"
                 placeholder="اسم المكون"
               />
+              {results ? (
+                <>
+                  {results.map((r) => (
+                    <>
+                      <p>المكون {r.item.name}</p>
+                      <p>
+                        موجود في تصنيف{" "}
+                        {categories.find((i) => i.id === r.item.ingCatId)?.name}
+                      </p>
+                    </>
+                  ))}
+                </>
+              ) : (
+                ""
+              )}
             </Form.Group>
             <Form.Group>
-              <label for="cars" style={{ float: "right", fontFamily: "serif" }}>
+              <label for="cars" style={{ float: "right" }}>
                 التصنيف
               </label>
 
               <select
-                style={{ float: "right", fontFamily: "serif" }}
+                style={{ float: "right" }}
                 name="ingCat"
                 id="ingCat"
                 onChange={(event) => handleChangeAddIng(event)}
               >
-                <option style={{ fontFamily: "serif" }} value="default">
-                  اختر
-                </option>
+                <option value="default">اختر</option>
 
                 {categories.map((ic) => (
                   <option value={ic.id}>{ic.name}</option>
@@ -359,18 +411,14 @@ const AddRecipe = () => {
               </select>
             </Form.Group>
             <Form.Group>
-              <label style={{ fontFamily: "serif" }} for="cars">
-                السعرات
-              </label>
+              <label for="cars">السعرات</label>
 
               <select
                 name="calories"
                 id="calories"
                 onChange={(event) => handleChangeAddIng(event)}
               >
-                <option style={{ fontFamily: "serif" }} value="default">
-                  اختر
-                </option>
+                <option value="default">اختر</option>
 
                 <option value="success">قليل السعرات</option>
                 <option value="warning">متوسط السعرات</option>

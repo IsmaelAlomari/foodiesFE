@@ -1,11 +1,46 @@
+@import url(https://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css);
 .App {
   text-align: center;
   background-color: linear-gradient(#f8ede3, #bdd2b6, #a2b29f, #798777);
+
+  font-family: "MyFont";
+}
+@font-face {
+  font-family: "MyFont";
+  src: local("MyFont"), url(./fonts/Changa-VariableFont_wght.ttf) format("woff");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
 }
 body {
   background: linear-gradient(180deg, #e3d9ca, #95a792, #596c68, #403f48);
   height: 100vh;
+  font-family: "MyFont";
 }
+
+p {
+  font-family: "MyFont";
+}
+.yameen {
+  direction: rtl;
+  text-align: right;
+
+  direction: rtl;
+}
+.react-tag-input {
+  direction: rtl;
+} /* Wrapper */
+.react-tag-input__input {
+  direction: rtl;
+} /* Inner input */
+.react-tag-input__tag {
+  direction: rtl;
+} /* Tag wrapper */
+.react-tag-input__tag__content {
+  direction: rtl;
+} /* The text content within the tag */
+.react-tag-input__tag__remove {
+  direction: rtl;
+} /* The remove button & icon for a tag */
 
 .check-list li {
   float: left;
@@ -26,6 +61,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #4e8d7c;
 }
 button {
   background: none;
@@ -39,13 +75,16 @@ button {
 .side-menu {
   position: absolute;
   right: 0px;
-  color: black;
+  background-image: #4e8d7c;
 }
 .accordion {
   position: absolute;
   right: 0px;
+  margin-right: 5px;
   margin-top: 20px;
-  width: 40%;
+  width: 50%;
+  text-align: right;
+  font-family: sans-serif;
 }
 .cuisine-img {
   height: 300px;
@@ -122,4 +161,13 @@ input:-moz-placeholder {
 }
 input::-webkit-input-placeholder {
   color: #999;
+}
+
+.pro-item-content {
+  font-family: serif;
+  color: white;
+}
+
+.pro-menu-item {
+  color: red;
 }

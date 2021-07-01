@@ -17,7 +17,7 @@ const NavBar = () => {
           <Link
             style={{
               float: "left",
-              fontFamily: "serif",
+
               fontWeight: "bold",
             }}
             to="/"
@@ -31,7 +31,6 @@ const NavBar = () => {
             <Nav.Link>
               <Link
                 style={{
-                  fontFamily: "serif",
                   fontWeight: "bold",
                 }}
                 to="/recipes/"
@@ -40,10 +39,7 @@ const NavBar = () => {
               </Link>
             </Nav.Link>
             <Nav.Link>
-              <Link
-                style={{ fontFamily: "serif", fontWeight: "bold" }}
-                to="/create-recipe/"
-              >
+              <Link style={{ fontWeight: "bold" }} to="/create-recipe/">
                 <button class="btn btn-secondary"> كتابة وصفة</button>{" "}
               </Link>{" "}
             </Nav.Link>
