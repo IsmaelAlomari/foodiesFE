@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const IngredientItem = (props) => {
   return (
     <>
-      <Badge pill variant={props.ing.calories}>
+      <Badge style={{ margin: '5px' }} pill variant={props.ing.calories}>
         {props.ing.name}{' '}
       </Badge>{' '}
     </>

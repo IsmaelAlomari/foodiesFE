@@ -105,7 +105,13 @@ const SideBar = () => {
         </Menu>
       </ProSidebar>
 
-      <Modal tabindex="-1" centered show={show} onHide={handleClose}>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
           <Modal.Title>إضافة قسم</Modal.Title>
         </Modal.Header>

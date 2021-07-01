@@ -8,11 +8,15 @@ import { useDropzone } from 'react-dropzone';
 import { addRecipe } from '../store/actions/recipeActions';
 import { useHistory } from 'react-router-dom';
 import IngredientItem from './IngredientItem';
+import useSound from 'use-sound';
+import mansaf from '../mansaf.mp3';
+import Fuse from 'fuse.js';
 
 import CategoryCard from './CategoryCard';
 import { Accordion, Card } from 'react-bootstrap';
 
 const AddRecipe = () => {
+  const [play] = useSound(mansaf);
   const history = useHistory();
   const thumbsContainer = {
     display: 'flex',
@@ -79,10 +83,19 @@ const AddRecipe = () => {
   });
   const [catIng, setCatIng] = useState({});
   const [ing, setIng] = useState({});
+  let ingredients = useSelector((state) => state.ingredients.ingredients);
 
   const handleClick = (id) => {
-    let newIng = [...recipe.ingredients, id];
-    setRecipe({ ...recipe, ingredients: newIng });
+    if (
+      ingredients.find((ing) => ing.id === id.id)?.name === 'دجاج' &&
+      recipe.name === 'منسف'
+    ) {
+      play();
+      console.log('منسف عجاج ما ينفع اردنية');
+    } else {
+      let newIng = [...recipe.ingredients, id];
+      setRecipe({ ...recipe, ingredients: newIng });
+    }
   };
   const handleChange = (event) => {
     setRecipe({ ...recipe, [event.target.name]: event.target.value });
@@ -97,6 +110,7 @@ const AddRecipe = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [query, setQuery] = useState('');
 
   const handleClose = () => {
     setShow(false);
@@ -148,7 +162,11 @@ const AddRecipe = () => {
   let categories = useSelector((state) => state.ingCat.ingCat);
   let cuisines = useSelector((state) => state.cuisines.cuisines);
 
-  let ingredients = useSelector((state) => state.ingredients.ingredients);
+  const fuse = new Fuse(ingredients, {
+    keys: ['name'],
+    minMatchCharLength: 4,
+  });
+  const results = fuse.search(query);
   const ingCatList = categories.map((category, idx) => (
     <CategoryCard
       category={category}
@@ -173,7 +191,7 @@ const AddRecipe = () => {
       <center>
         <br /> <br />
         <br />
-        <Card style={{ width: '18rem' }}>
+        <Card className="yameen" style={{ width: '22rem' }}>
           <Card.Body>
             <Card.Title>المكونات</Card.Title>
             <Card.Text>
@@ -240,7 +258,13 @@ const AddRecipe = () => {
       </center>
 
       {/* Add ingCat modal */}
-      <Modal tabindex="-1" centered show={show} onHide={handleClose}>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
           <Modal.Title>إضافة تصنيف</Modal.Title>
         </Modal.Header>
@@ -267,7 +291,13 @@ const AddRecipe = () => {
         </Modal.Footer>
       </Modal>
       {/* Add ing modal */}
-      <Modal tabindex="-1" centered show={show2} onHide={handleClose2}>
+      <Modal
+        className="yameen"
+        tabindex="-1"
+        centered
+        show={show2}
+        onHide={handleClose2}
+      >
         <Modal.Header closeButton>
           <Modal.Title>إضافة مكون</Modal.Title>
         </Modal.Header>
@@ -277,10 +307,28 @@ const AddRecipe = () => {
               <Form.Label>اسم المكون</Form.Label>
               <Form.Control
                 name="name"
-                onChange={(event) => handleChangeAddIng(event)}
+                onChange={(event) => {
+                  handleChangeAddIng(event);
+                  setQuery(event.target.value);
+                }}
                 type="text"
                 placeholder="اسم المكون"
               />
+              {results ? (
+                <>
+                  {results.map((r) => (
+                    <>
+                      <p>المكون {r.item.name}</p>
+                      <p>
+                        موجود في تصنيف{' '}
+                        {categories.find((i) => i.id === r.item.ingCatId)?.name}
+                      </p>
+                    </>
+                  ))}
+                </>
+              ) : (
+                ''
+              )}
             </Form.Group>
             <Form.Group>
               <label for="cars">التصنيف:</label>
@@ -298,7 +346,9 @@ const AddRecipe = () => {
               </select>
             </Form.Group>
             <Form.Group>
-              <label for="cars">السعرات:</label>
+              <label for="cars">
+                السعرات: <span> </span>
+              </label>
 
               <select
                 name="calories"

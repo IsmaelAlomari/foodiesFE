@@ -1,6 +1,27 @@
 .App {
   text-align: center;
 }
+.yameen {
+  direction: rtl;
+  text-align: right;
+
+  direction: rtl;
+}
+.react-tag-input {
+  direction: rtl;
+} /* Wrapper */
+.react-tag-input__input {
+  direction: rtl;
+} /* Inner input */
+.react-tag-input__tag {
+  direction: rtl;
+} /* Tag wrapper */
+.react-tag-input__tag__content {
+  direction: rtl;
+} /* The text content within the tag */
+.react-tag-input__tag__remove {
+  direction: rtl;
+} /* The remove button & icon for a tag */
 .check-list li {
   float: left;
   align-items: center;

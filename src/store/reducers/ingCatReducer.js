@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/types';
 
 const initialState = {
   ingCat: [],
+  loading: true,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -10,6 +11,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ingCat: action.payload,
+        loading: false,
       };
     }
     case actionTypes.ADD_INGREDIENT: {
